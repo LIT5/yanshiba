@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
+
+<head>
+    <title>词法分析</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta http-equiv="Content-Language" content="zh-CN" />
+    <meta name="Author" content="LIT" />
+    <meta name="Copyright" content="" />
+    <meta name="keywords" content="prototype" />
+    <link rel="Shortcut Icon" href="#" />
+    <script type="text/javascript">
+    //词法分析主要分三个步骤：
+    // 1、先分析参数
+    // 2、再分析变量的声明
+    // 3、分析函数说明
+
+    //一、词法分析
+    //1、函数在运行的瞬间,在window上面形成一个AO链，生成一个活动对象（Active Object)就是所谓的AO
+    //1-1:函数接收参数，添加到AO的属性上面，值全部都是undefine,如AO.age=undefine
+    //1-2:接收实参，形成AO对应的属性值AO.age=”5”
+    function testAO(age) {
+        // 2：分析变量声明，如var age,
+        // 2-1：如果AO上还没有age属性，则添加AO 属性，值是undefine
+        // 2-2：如果AO上面已经有了age属性,则不做任何操作。
+        //== 二、执行过程
+        //==此处age为函数，打印函数结构
+        var age;
+        console.log(age);
+        //==此处age赋值为数值，打印99
+        age = "99";
+        console.log(age);
+
+        //3：分析函数的声明，
+        // 3-1：如果AO链不存在funcion age(){}的同名属性,略过。
+        // 3-2：如果AO链存在同名属性,则把函数赋给AO.age,数据属性被现在的新值（即方法）覆盖
+        // AO.age=”5”被覆盖为AO.age=funcion age(){}
+        function age() { //词法分析的最后，age覆盖为函数
+            console.log(age);
+        }
+        //==此处age赋值为数值，不是函数，报错
+        age();
+        //==报错后，以下不输出
+        console.log(age);
+    }
+    testAO(5);
+
+
+/**
+    //形成AO对应的属性值AO.age=”5”
+    function testAO(age) {
+        // 如果AO上面已经有了age属性,则不做任何操作。        
+        //==此处age为5：打印5
+        var age;
+        console.log(age);
+        //如果AO上面已经有了age属性,则不做任何操作。
+        //==此处age被赋值为函数
+        var age =
+            function age() {
+                console.log(age);
+            }
+        //==执行age函数：打印age函数结构
+        age();
+        //==打印age函数结构
+        console.log(age);
+    }
+
+    //==输出5、funcion age(){}、funcion age(){}
+    testAO(5);
+
+    **/
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

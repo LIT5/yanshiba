@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
+
+<head>
+    <title>原型链</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta http-equiv="Content-Language" content="zh-CN" />
+    <meta name="Author" content="LIT" />
+    <meta name="Copyright" content="" />
+    <meta name="keywords" content="prototype" />
+    <link rel="Shortcut Icon" href="#" />
+    <script type="text/javascript">
+    //apply()、call()可以用(里面的对象)来代替外面的当前对象；借当前对象的尸还(里面对象)的魂。
+    //调用当前对象的方法，将该方法的对象上下文从初始的上下文改变为由(里面的对象)指定的新对象。
+    var log = function() {
+        console.log.apply(console, arguments);
+    }
+
+    //定义两个函数，一个具有打印能力，另一个没有。
+    function able() {
+        this.dolog = function(str) {
+            log(str);
+        }
+    }
+
+    function disable() {}
+
+    //a实例具有打印能力
+    var a = new able();
+    a.dolog("able，a实例具有打印能力");
+    //dis实例没有打印能力
+    var dis = new disable();
+
+    ////一、仅仅操作当前dis实例，并不修改disable函数
+    //1.替换构造函数原型  
+    dis.__proto__ = a;
+    dis.dolog("disable，dis实例替换构造函数为a实例");
+
+    //2.强行更换dis实例的函数：构造函数继承（对象冒充继承）
+    //以able实例为基础，利用call函数，强行更换dis实例的函数（已重新创建disable实例）
+    var dis = new disable();
+    able.call(dis);
+    dis.dolog("disable，以able函数强行更换dis实例的函数");
+
+    //以上仅操作对当前生成的实例生效，重新创建的disable实例仍然没有打印功能
+    log('以上仅操作对当前生成的实例生效，重新创建的disable实例仍然没有打印功能');
+    var dis = new disable();
+    log(dis);
+    log('==================');
+
+    ////二、修改disable()函数，修改以后重新new出的实例有效
+    // 1.编辑构造函数原型，在原型之上新增属性；且当前实例也有效
+    dis.__proto__.dolog = function(str) {
+        log(str);
+    }
+    log(dis);
+    dis.dolog("disable，以上为：编辑dis实例的构造函数原型disable()，新增log方法；对当前实例也有效");
+    //修改以后重新new出的实例有效
+    var dis = new disable();
+    dis.dolog("修改以后重新new出的实例有效");
+    log(dis);
+    log('/////////////////');
+
+    //2.替换disable()函数的原型为其他函数的实例：原型继承;
+    //要再对象new之前,否则new出的对象不起作用
+
+    disable.prototype = a;
+    var dis = new disable();
+    log(a);
+    log(dis);
+    log(able.prototype);
+    log(disable.prototype);
+
+    dis.dolog("disable，完全替换disable()函数的原型为其他函数的实例，原型继承自其他函数");
+
+    //函数原型新增方法举例：数组随机序列
+    if (!Array.prototype.shuffle) {
+        Array.prototype.shuffle = function() {
+            for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
+            return this;
+        };
+    }
+    var array = [];
+    for (var i = 0; i < 10; i++) {
+        array.push(i);
+    };
+    log(array);
+    log(array.shuffle());
+
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

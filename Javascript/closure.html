@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
+
+<head>
+    <title>闭包</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta http-equiv="Content-Language" content="zh-CN" />
+    <meta name="Author" content="LIT" />
+    <meta name="Copyright" content="LIT" />
+    <meta name="keywords" content="closure" />
+    <link rel="Shortcut Icon" href="#" />
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="./js/getRandomColor.js"></script>
+    <script type="text/javascript">
+    //php延迟绑定 static::定义为运行起始绑定，在哪个类开始运行的，便回指向哪个类；
+    //self::指向当前运行时的类，运行到哪个声明的类，便指向哪个类。
+
+    //js函数的作用域取决于最初声明时，而不取决于后期调用；类似php的self，后期被调用，函数作用域始终指向最初声明时的环境闭包
+    var log = function() {
+        console.log.apply(console, arguments);
+    }
+
+    //一、js函数作用域
+    function start(){
+        var core='inner';
+        var who=function(){
+            return core;
+        }
+        return who();
+    }
+    function end() {
+        var core='outer';
+        var who=start;
+        return who();
+    }
+    //end()函数的who变量指向start()，start()函数返回最初声明时的变量core；
+    //start()结束，除了start外，该变量core无人可调；此处的start()就是闭包函数。
+    log(end());
+
+    //二、闭包演示：
+    //1.最初声明cnt函数
+    function cnt() {
+        var cnt = 0;
+        var add = function() {
+            return ++cnt;
+        }
+        return add;
+    }
+    //2.cnt函数赋值给变量对象inc
+    var inc = cnt();
+    //3.后期多次调用inc
+    log(inc());
+    log(inc());
+    log(inc());
+
+
+    //三、名字空间：
+    //js名字空间,lit本质上是一个对象
+    var lit = {};
+    lit.inc = (
+        //匿名函数赋值给变量对象inc
+        function() {
+            var cnt = 9;
+            return function() {
+                return --cnt;
+            }
+        })();
+    log(lit.inc());
+    log(lit.inc());
+    log(lit.inc());
+    </script>
+</head>
+
+<body>
+    <ul>
+        <li>春</li>
+        <li>夏</li>
+        <li>秋</li>
+        <li>冬</li>
+    </ul>
+    <script type="text/javascript">
+    //三、闭包应用举例
+    for (var i = 0, lis = document.getElementsByTagName('li'), len = lis.length; i < len; i++) {
+        lis[i].onclick = (
+            //闭包函数开始
+            function() {
+                //制造一个闭包的死值Dead Value，函数结束无人可调
+                var DV = 0;
+                return function() {
+                    //唯一可调用该死值的闭包内函数		
+                    alert(DV++);
+                }
+            }
+            //闭包函数结束
+        )()
+    };
+    </script>
+</body>
+
+</html>
