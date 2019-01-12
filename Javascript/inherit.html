@@ -11,6 +11,10 @@
     <meta name="keywords" content="prototype" />
     <link rel="Shortcut Icon" href="#" />
     <script type="text/javascript">
+    var log = function() {
+        console.log.apply(console, arguments);
+    }
+
     // 定义一个动物类
     function Animal(name) {
         // 属性
@@ -264,6 +268,8 @@
         Super.prototype = Animal.prototype;
         //将实例作为子类的原型
         superParasyte.prototype = new Super();
+        //组合继承需要修复构造函数指向。
+        superParasyte.prototype.constructor = superParasyte;
     })();
 
     // Test Code
