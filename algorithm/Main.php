@@ -3,7 +3,7 @@
 define('ACC', true);
 include './include/init.php';
 
-$array = Util::fill(3);
+$array = Util::fill(10);
 echo "原数组<br/>";
 echo implode(",", $array) . '<br/>';
 echo '<hr/>';

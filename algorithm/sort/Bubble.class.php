@@ -14,7 +14,9 @@ class bubble {
 	//基本排序
 	public function baseSort($array) {
 		$size = sizeof($array);
+		// 该层循环控制 需要冒泡的轮数
 		for ($i = 0; $i < $size - 1; $i++) {
+			// 该层循环用来控制每轮 冒出一个数 需要比较的次数
 			for ($j = 0; $j < $size - 1 - $i; $j++) {
 				if ($array[$j] > $array[$j + 1]) {
 					Util::swap($array[$j], $array[$j + 1]);
