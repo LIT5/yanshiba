@@ -16,13 +16,13 @@ if (defined('DEBUG')) {
 // 自动加载类函数
 function __autoloadinit($class) {
 	switch (strtolower($class)) {
-	case 'bubble':
-		require ROOT_PATH . '\sort\\' . $class . '.class.php';
+	case 'util':
+		require ROOT_PATH . '\include\\' . $class . '.class.php';
 		break;
 
 	default:
 		# code...
-		require ROOT_PATH . '\include\\' . $class . '.class.php';
+		require ROOT_PATH . '\sort\\' . $class . '.class.php';
 		break;
 	}
 }

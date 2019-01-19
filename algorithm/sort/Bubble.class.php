@@ -3,13 +3,6 @@
  *冒泡排序
  */
 class bubble {
-	//交换
-	public function swap($sa, $sb) {
-		$temp = $sa;
-		$sa = $sb;
-		$sb = $temp;
-		// return $array;
-	}
 
 	//基本排序
 	public function baseSort($array) {
