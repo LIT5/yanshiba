@@ -1,9 +1,12 @@
 <?php
+/****
+排序算法
+ ****/
 //定义防跳墙访问常量
 define('ACC', true);
 include './include/init.php';
-
 $array = Util::fill(5);
+
 echo "原数组<br/>";
 echo implode(",", $array) . '<br/>';
 echo '<hr/>';
