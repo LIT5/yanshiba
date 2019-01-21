@@ -5,7 +5,8 @@
 class binary {
 
 	function search($array, $search) {
-		$high = sizeof($array);
+		$size = sizeof($array);
+		$high = $size - 1;
 		$low = 0;
 		while ($low <= $high) {
 			//获取中间数

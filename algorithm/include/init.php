@@ -25,6 +25,7 @@ function __autoloadinit($class) {
 
 	case 'binary':
 	case 'insert':
+	case 'interpolation':
 		require ROOT_PATH . '\search\\' . $class . '.class.php';
 		break;
 

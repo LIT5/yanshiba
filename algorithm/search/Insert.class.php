@@ -1,34 +1,35 @@
 <?php
 /**插值查找法
  *前提:数组必须是有序数组
+ *对于极端不均匀的数据，插值查找效率比折半查找低。
  */
 
 class insert {
 
-	function search($array, $insert) {
+	function search($array, $search) {
 		$size = sizeof($array);
-		//如果插入的值大于数组最大的值，直接追加在数组末尾返回
-		if ($array[$size - 1] < $insert) {
-			$array[$size] = $insert;
-			return $array;
-		}
-		//从数组最前端开始比对
-		for ($i = 0; $i < $size; $i++) {
-			//找到插入的位置，执行插入后返回
-			if ($array[$i] >= $insert) {
-				$temp = $array[$i];
-				$array[$i] = $insert;
-				//将数组最后一个数组压入数组尾部
-				array_push($array, $array[$size - 1]);
-				//后面的数组值全部右移
-				for ($j = $i + 1; $j < $size + 1; $j++) {
-					Util::swap($temp, $array[$j]);
-				}
-				//返回，退出比对循环
-				return $array;
+		$high = $size - 1;
+		$low = 0;
+		while ($low <= $high) {
+			if ($array[$low] == $search) {
+				return 'array[' . $low . '] == ' . $array[$low];
+			}
+			if ($array[$high] == $search) {
+				return 'array[' . $high . '] == ' . $array[$high];
+			}
+			// 折半查找 ： $middle = intval(($lower + $high) / 2);
+			$middle = intval($low + ($search - $array[$low]) / ($array[$high] - $array[$low]) * ($high - $low));
+			if ($search < $array[$middle]) {
+				$high = $middle - 1;
+			} else if ($search > $array[$middle]) {
+				$low = $middle + 1;
+			} else {
+				return 'array[' . $middle . '] == ' . $array[$middle];
 			}
 		}
+		die('没有找到...');
 	}
+
 }
 
 ?>

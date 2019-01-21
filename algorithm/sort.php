@@ -29,15 +29,15 @@ $selection = new selection();
 $order = $selection->sort($array);
  */
 
-echo "插入排序<br/>";
+/*
+echo "直接插入排序<br/>";
 $insertion = new insertion();
 $order = $insertion->sort($array);
+ */
 
-/*
 echo "快速排序<br/>";
 $quick = new quick();
 $order = $quick->sort($array);
- */
 
 echo implode(",", $order);
 echo '<hr/>';

@@ -1,6 +1,7 @@
 <?php
 /**
- *插入排序
+ *直接插入排序
+ *每步将一个待排序的记录按其关键字的大小插到前面已经排序的序列中的适当位置，直到全部记录插入完毕为止。
  */
 class insertion {
 	public function sort($array) {
